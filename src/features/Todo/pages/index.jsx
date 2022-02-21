@@ -1,9 +1,12 @@
 import React from 'react'
+import { useState } from 'react';
 // import PropTypes from 'prop-types'
 import TodoList from '../components/TodoList';
 
 const TodoFeature = props => {
-    const todoList = [
+  // props không thay đổi được.
+  // để thay đổi được satus --> chuyển sang dùng satte.
+    const initTodoList = [
         {
           id: 1,
           title: 'Eat',
@@ -21,9 +24,26 @@ const TodoFeature = props => {
         },
       ];
 
+  const [todoList,setTodoList] = useState(initTodoList);
+  const handleTodoClick = (todo, idx) => {
+    console.log(todo, idx)
+    // Sao chép mảng cũ tạo thành 1 mảng mới
+    const newTodoList = [...todoList];
+    // thay đổi status khi click
+
+    newTodoList[idx] = {
+      ...newTodoList[idx],
+      status: newTodoList[idx].status === 'new'?'completed':'new'
+    };
+    // newTodoList[idx] = newTodo;
+
+    setTodoList(newTodoList);
+
+  }
+
   return (
     <div>
-        <TodoList todoList={todoList} />
+        <TodoList todoList={todoList} onTodoClick={handleTodoClick} />
     </div>
     
   )
